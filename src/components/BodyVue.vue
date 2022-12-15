@@ -34,7 +34,7 @@ export default {
             //1. "=" の時
             if (val == "=") {
                 this.period_included = false;
-                this.formula = this.calculate;
+                this.formula = this.calculate();
                 //2. "÷, ×, -, +" の時
             } else if (this.operations.includes(val) == true) {
                 this.period_included = false;
@@ -49,15 +49,19 @@ export default {
                 }
                 //3. "." の時
             } else if (val == ".") {
-                this.period_included = true;
                 if (this.operations.some(c => c === this.formula.slice(-1)) == true) {
                     this.formula += "0";
                     this.addContext($event);
                 } else if (this.formula.slice(-1) == ".") {
                     return;
-                } else {
+                }
+                else if (isNaN(this.formula.slice(-1)) == false && this.period_included == true) {
+                    return;
+                }
+                else {
                     this.addContext($event);
                 }
+                this.period_included = true;
                 //4. "0" の時
             } else if (val == "0") {
                 if (this.period_included == false && this.formula.slice(-1) == "0") {
@@ -83,14 +87,19 @@ export default {
 
         clearAll: function () {
             this.formula = "0";
-        }
-    },
-    computed: {
+        },
         calculate: function () {
             var calculate = eval(this.formula.replaceAll("×", "*").replaceAll("÷", "/"));
             return calculate;
         }
+
     },
+    // computed: {
+    //     calculate: function () {
+    //         var calculate = eval(this.formula.replaceAll("×", "*").replaceAll("÷", "/"));
+    //         return calculate;
+    //     }
+    // },
 }
 </script>
 <style scoped>
