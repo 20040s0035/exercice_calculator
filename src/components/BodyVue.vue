@@ -90,9 +90,8 @@ export default {
         },
         calculate: function () {
             var calculate = eval(this.formula.replaceAll("×", "*").replaceAll("÷", "/"));
-            return calculate;
+            return calculate.toString();
         }
-
     },
     // computed: {
     //     calculate: function () {
