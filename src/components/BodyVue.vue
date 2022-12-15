@@ -20,6 +20,7 @@ export default {
             el: '#calculate',
             formula: "0",
             period_included: false,
+            is_calculated: false,
             dataArrays: [
                 [7, 8, 9, "÷"],
                 [4, 5, 6, "×"],
@@ -35,6 +36,7 @@ export default {
             if (val == "=") {
                 this.period_included = false;
                 this.formula = this.calculate();
+                this.is_calculated = true;
                 //2. "÷, ×, -, +" の時
             } else if (this.operations.includes(val) == true) {
                 this.period_included = false;
@@ -47,8 +49,13 @@ export default {
                 } else {
                     this.addContext($event);
                 }
+                this.is_calculated = false;
                 //3. "." の時
             } else if (val == ".") {
+                if (this.is_calculated == true) {
+                    this.formula = "";
+                    this.is_calculated = false;
+                }
                 if (this.operations.some(c => c === this.formula.slice(-1)) == true) {
                     this.formula += "0";
                     this.addContext($event);
@@ -64,6 +71,10 @@ export default {
                 this.period_included = true;
                 //4. "0" の時
             } else if (val == "0") {
+                if (this.is_calculated == true) {
+                    this.formula = "";
+                    this.is_calculated = false;
+                }
                 if (this.period_included == false && this.formula.slice(-1) == "0") {
                     return;
                 } else {
@@ -71,6 +82,10 @@ export default {
                 }
                 //5. "1,2,3,4,5,6,7,8,9" の時
             } else {
+                if (this.is_calculated == true) {
+                    this.formula = "";
+                    this.is_calculated = false;
+                }
                 if (this.formula == "0") {
                     this.formula = "";
                 } else if (this.period_included == false && this.formula.slice(-1) == "0") {
