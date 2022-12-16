@@ -14,6 +14,7 @@
 </template>
 
 <script>
+// import { Decimal } from 'decimal.js';
 export default {
     data() {
         return {
@@ -93,7 +94,6 @@ export default {
                 }
                 this.addContext($event);
             }
-
             console.log(this.formula);
         },
         addContext: function ($event) {
@@ -104,8 +104,14 @@ export default {
             this.formula = "0";
         },
         calculate: function () {
+            //*
             var calculate = eval(this.formula.replaceAll("×", "*").replaceAll("÷", "/"));
             return calculate.toString();
+            /*/
+            var i = eval(this.formula.replaceAll("×", "*").replaceAll("÷", "/"));
+            var calculate = new Decimal(i);
+            return calculate.toString();
+            //*/
         }
     },
     // computed: {
