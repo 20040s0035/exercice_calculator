@@ -12,10 +12,9 @@
         </div>
     </div>
 </template>
-
 <script>
-// import { Decimal } from 'decimal.js';
-export default {
+import Decimal from 'decimal.js'
+export default{
     data() {
         return {
             el: '#calculate',
@@ -99,17 +98,16 @@ export default {
         addContext: function ($event) {
             this.formula += $event.target.textContent;
         },
-
         clearAll: function () {
             this.formula = "0";
         },
         calculate: function () {
-            //*
+            /*
             var calculate = eval(this.formula.replaceAll("×", "*").replaceAll("÷", "/"));
             return calculate.toString();
             /*/
             var i = eval(this.formula.replaceAll("×", "*").replaceAll("÷", "/"));
-            var calculate = new Decimal(i);
+            var calculate = new Decimal(parseInt(i, 10));
             return calculate.toString();
             //*/
         }
