@@ -53,7 +53,8 @@ export default{
                 //3. "." の時
             } else if (val == ".") {
                 if (this.is_calculated == true) {
-                    this.formula = "";
+                    this.formula = "0";
+                    this.addContext($event);
                     this.is_calculated = false;
                 }
                 if (this.operations.some(c => c === this.formula.slice(-1)) == true) {
@@ -102,22 +103,18 @@ export default{
             this.formula = "0";
         },
         calculate: function () {
-            /*
-            var calculate = eval(this.formula.replaceAll("×", "*").replaceAll("÷", "/"));
-            return calculate.toString();
-            /*/
+        //*
             var i = eval(this.formula.replaceAll("×", "*").replaceAll("÷", "/"));
-            var calculate = new Decimal(parseInt(i, 10));
+            var calculate = new Decimal(parseFloat(i, 10));
             return calculate.toString();
-            //*/
+        /*/
+            const array = this.formula.split(
+                "÷"|"×"|"+"|"-"
+            );
+            console.log(array);
+        //*/
         }
     },
-    // computed: {
-    //     calculate: function () {
-    //         var calculate = eval(this.formula.replaceAll("×", "*").replaceAll("÷", "/"));
-    //         return calculate;
-    //     }
-    // },
 }
 </script>
 <style scoped>
